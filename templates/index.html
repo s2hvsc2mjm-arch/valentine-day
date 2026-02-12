@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>❤️</title>
+    <style>
+        body {
+            background-color: #fff0f3; 
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            font-family: 'Segoe UI', sans-serif;
+            overflow: hidden;
+        }
+
+        .container {
+            text-align: center;
+            background: white;
+            padding: 2rem;
+            border-radius: 40px;
+            box-shadow: 0 15px 35px rgba(255, 182, 193, 0.4);
+            max-width: 500px;
+            width: 90%;
+            z-index: 10;
+            transition: all 0.3s ease;
+        }
+
+        h1 { color: #ff4d6d; font-size: 1.5rem; margin-bottom: 20px; }
+        
+        .gif-container img {
+            width: 100%;
+            max-width: 200px;
+            border-radius: 20px;
+            margin-bottom: 20px;
+        }
+
+        /* Контейнер для кнопок */
+        .buttons {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px; /* Расстояние между кнопками */
+            flex-wrap: wrap; /* Чтобы кнопки переносились, если станут слишком большими */
+        }
+
+        button {
+            border: none;
+            border-radius: 50px; 
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        #yesBtn {
+            background-color: #ff4d6d;
+            color: white;
+            padding: 15px 30px;
+            font-size: 1rem;
+            min-width: 80px;
+        }
+
+        #noBtn {
+            background-color: #ffb3c1;
+            color: white;
+            padding: 15px 30px;
+            font-size: 1rem;
+            white-space: nowrap;
+        }
+
+        .hidden { display: none; }
+        
+        /* Сердечки */
+        .heart-particle {
+            position: absolute;
+            color: #ff4d6d;
+            user-select: none;
+            pointer-events: none;
+            animation: floatUp 3s linear forwards;
+            z-index: 1;
+        }
+
+        @keyframes floatUp {
+            0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(-100vh) rotate(360deg); opacity: 0; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div id="questionSection">
+            <div class="gif-container">
+                <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExOHpueGZ3bmZ3bmZ3bmZ3bmZ3bmZ3bmZ3bmZ3bmZ3bmZ3bmZ3JmVwPXYxX2ludGVybmFsX2dpZl9ieV9pZCZjdD1n/c76IJLufpNwSULPk77/giphy.gif" alt="Asking">
+            </div>
+            <h1>Ты будешь моей валентинкой?</h1>
+            <div class="buttons">
+                <button id="yesBtn">ДА</button>
+                <button id="noBtn">Нет</button>
+            </div>
+        </div>
+
+        <div id="successSection" class="hidden">
+            <div class="gif-container">
+                <img src="https://media2.giphy.com/media/v1.Y2lkPTc5MGI3NjExOTlsNmUzcThmNWNoNzR2NDQ0bW8yNWFoanU3NXhuaHdtdXQ2cmNsNCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/auGFCmg6rM0eI/giphy.gif" alt="Success">
+            </div>
+            <h1>УРА!!! ЛЮБЛЮ ТЕБЯ, ОЛЕНЬКА ❤️</h1>
+        </div>
+    </div>
+
+    <script>
+        const yesBtn = document.getElementById('yesBtn');
+        const noBtn = document.getElementById('noBtn');
+        const questionSection = document.getElementById('questionSection');
+        const successSection = document.getElementById('successSection');
+
+        let paddingVal = 15;
+        let fontSizeVal = 1;
+        let noScale = 1;
+
+        noBtn.addEventListener('click', () => {
+            // Увеличиваем ДА через внутренние отступы (чтобы кнопка росла физически и расталкивала соседей)
+            paddingVal += 15;
+            fontSizeVal += 0.3;
+            
+            yesBtn.style.padding = `${paddingVal}px ${paddingVal * 2}px`;
+            yesBtn.style.fontSize = `${fontSizeVal}rem`;
+
+            // Уменьшаем НЕТ
+            noScale -= 0.2;
+            noBtn.style.transform = `scale(${noScale})`;
+
+            if (noScale <= 0.3) {
+                noBtn.style.display = 'none';
+            }
+        });
+
+        yesBtn.addEventListener('click', () => {
+            questionSection.classList.add('hidden');
+            successSection.classList.remove('hidden');
+            startHearts();
+        });
+
+        function startHearts() {
+            setInterval(() => {
+                const heart = document.createElement('div');
+                heart.innerHTML = '❤️';
+                heart.classList.add('heart-particle');
+                heart.style.left = Math.random() * 100 + 'vw';
+                heart.style.bottom = '-5vh';
+                heart.style.fontSize = (Math.random() * 25 + 15) + 'px';
+                document.body.appendChild(heart);
+                setTimeout(() => heart.remove(), 3000);
+            }, 150);
+        }
+    </script>
+</body>
+</html>
